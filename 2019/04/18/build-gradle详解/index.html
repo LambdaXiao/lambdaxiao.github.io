@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="gradle,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1.什么是Gradle的Android插件Gradle有很多插件，为了支持Android项目的构建，谷歌为Gradle编写了Android插件，新的Android构建系统就是由Gradle的Android插件组成的，Gradle是一个高级构建工具包，它管理依赖项并允许开发者自定义构建逻辑。Android Studio使用Gradle wrapper来集成Gradle的Android插件。需要注意的">
+<meta name="keywords" content="gradle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="build.gradle详解">
+<meta property="og:url" content="http://yoursite.com/2019/04/18/build-gradle详解/index.html">
+<meta property="og:site_name" content="秦军锐士">
+<meta property="og:description" content="1.什么是Gradle的Android插件Gradle有很多插件，为了支持Android项目的构建，谷歌为Gradle编写了Android插件，新的Android构建系统就是由Gradle的Android插件组成的，Gradle是一个高级构建工具包，它管理依赖项并允许开发者自定义构建逻辑。Android Studio使用Gradle wrapper来集成Gradle的Android插件。需要注意的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-25T08:25:57.527Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="build.gradle详解">
+<meta name="twitter:description" content="1.什么是Gradle的Android插件Gradle有很多插件，为了支持Android项目的构建，谷歌为Gradle编写了Android插件，新的Android构建系统就是由Gradle的Android插件组成的，Gradle是一个高级构建工具包，它管理依赖项并允许开发者自定义构建逻辑。Android Studio使用Gradle wrapper来集成Gradle的Android插件。需要注意的">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/18/build-gradle详解/">
+
+
+
+
+
+  <title>build.gradle详解 | 秦军锐士</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/LambdaXiao/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">秦军锐士</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">面向对象面向君，不负代码不负卿。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/18/build-gradle详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content>
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="秦军锐士">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">build.gradle详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-18T11:46:33+08:00">
+                2019-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/gradle/" itemprop="url" rel="index">
+                    <span itemprop="name">gradle</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/18/build-gradle详解/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/04/18/build-gradle详解/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1-什么是Gradle的Android插件"><a href="#1-什么是Gradle的Android插件" class="headerlink" title="1.什么是Gradle的Android插件"></a>1.什么是Gradle的Android插件</h3><p>Gradle有很多插件，为了支持Android项目的构建，谷歌为Gradle编写了Android插件，新的Android构建系统就是由Gradle的Android插件组成的，Gradle是一个高级构建工具包，它管理依赖项并允许开发者自定义构建逻辑。Android Studio使用Gradle wrapper来集成Gradle的Android插件。需要注意的是，Gradle的Android插件也可以独立于AndroidStudio运行。<br>在 Android的官方网站提到了新的Android构建系统主要有以下几个特点：</p>
+<ul>
+<li>代码和资源易于重用</li>
+<li>无论是针对多个apk发行版还是针对不同风格的应用程序，都可以很容易创建应用程序的多个不同版本。</li>
+<li>易于配置、扩展和自定义构建过程</li>
+<li>良好的IDE集成</li>
+</ul>
+<p>Gradle的Android插件结合Android Studio成为了目前最为流行的Android构建系统。<br><a id="more"></a></p>
+<h3 id="2-Android-Studio的模块类型"><a href="#2-Android-Studio的模块类型" class="headerlink" title="2. Android Studio的模块类型"></a>2. Android Studio的模块类型</h3><p>Android Studio中的每个项目包含一个或多个含有源代码文件和资源文件的模块，这些模块可以独立构建、测试或调试，一个Android Studio的模块类型可以有以下几种：</p>
+<p><strong>Android应用程序模块</strong></p>
+<p> Android应用程序模块可能依赖于库模块，尽管许多Android应用程序只包含一个应用程序模块，构建系统会将其生成一个APK。</p>
+<p><strong>Android 库模块</strong></p>
+<p>Android库模块包含可重用的特定于Android的代码和资源，构建系统会将其生成一个AAR。</p>
+<p><strong>App 引擎模块</strong></p>
+<p>包含应用程序引擎集成的代码和资源。</p>
+<p><strong>Java 库模块</strong></p>
+<p>包含可重用的代码，构建系统会将其生成一个JAR包。</p>
+<p>所有构建文件在 Gradle Scripts 层级下显示，大概介绍下这些文件的用处。</p>
+<ul>
+<li><strong>项目build.gradle：</strong> 配置项目的整体属性，比如指定使用的代码仓库、依赖的Gradle插件版本等等。</li>
+<li><strong>模块build.gradle：</strong> 配置当前Module的编译参数。</li>
+<li><p><strong>gradle-wrapper.properites：</strong> 配置Gradle Wrapper，可以查看Gradle核心思想（四）看似无用，实则重要的Gradle Wrapper这篇文章。</p>
+</li>
+<li><p><strong>gradle.properties：</strong> 配置Gradle的编译参数。具体配置见Gradle官方文档</p>
+</li>
+<li><p><strong>settings.gradle：</strong> 配置Gradle的多项目管理，比如这个项目包含哪些模块等。</p>
+</li>
+<li><p><strong>local.properties：</strong> 一般用来存放该Android项目的私有属性配置，比如配置SDK或者NDK的环境路径，各个机器上这个变量可能都是不一样的，所以不应该进入版本库。</p>
+</li>
+<li><p><strong>./app/proguard-rules.pro</strong><br>这个和上面说的一样混淆文件</p>
+</li>
+<li><p><strong>./gradlew 和 ./gradlew.bat</strong><br>自动完成 gradle 环境的脚本，在linux和mac下直接运行gradlew会自动完成gradle环境的搭建。</p>
+</li>
+</ul>
+<ul>
+<li><strong>./XXX.iml 和 ./app/app.iml</strong><br>iml是Intellij模块文件。Intellij是一款JAVA的IDE。Android Studio是基于开源的Intellij IDEA开发出来的IDE。<br>所以Android Studio有的IDE功能是需要有.iml才能使用的。比如我们删除了iml文件，可能就在Android Studio中看不到一些目录了。</li>
+</ul>
+<p>这篇文章主要介绍项目build.gradle和模块build.gradle。</p>
+<h3 id="3-项目build-gradle"><a href="#3-项目build-gradle" class="headerlink" title="3.项目build.gradle"></a>3.项目build.gradle</h3><p>build.grade有两个，一个是全局的，一个是在模块里面。<br>全局的build.grade主要设置的是声明仓库源，gradle的版本号说明等。</p>
+<p>文件目录如下：<br>./build.gradle</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123; //设置脚本的运行环境</span><br><span class="line">    repositories &#123;</span><br><span class="line">        // 声明仓库源，比如我们构建了一个安卓的库，现在想要把库上传到jcenter中供别人一起使用，则可以上传到jcenter中</span><br><span class="line">        // 具体上传步骤见：http://www.jcodecraeer.com/a/anzhuokaifa/Android_Studio/2015/0227/2502.html</span><br><span class="line">        jcenter()</span><br><span class="line">        google()</span><br><span class="line">    &#125;</span><br><span class="line">    dependencies &#123;</span><br><span class="line">        /* 配置依赖的Gradle插件版本，Gradle插件属于第三方插件，因此这里在buildscrip块中配置谷歌的Maven库和JCenter库，这样Gradle系统才能找到对应的Gradle插件。如果使用google()报not found: &apos;google()&apos;错误，可以用如下代码替代：maven &#123; url &apos;https://maven.google.com&apos; &#125; */</span><br><span class="line">        classpath &apos;com.android.tools.build:gradle:1.3.0&apos;</span><br><span class="line"></span><br><span class="line">        // NOTE: Do not place your application dependencies here; they belong</span><br><span class="line">        // in the individual module build.gradle files</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 所有项目都继承这个配置</span><br><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        mavenLocal()</span><br><span class="line">        jcenter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//配置全局的sdk版本号，其他module引用这个的</span><br><span class="line">ext &#123;</span><br><span class="line">compileSdkVersion = 23</span><br><span class="line">buildToolsVersion = &apos;23.0.1&apos;</span><br><span class="line">minSdkVersion = &apos;15&apos;</span><br><span class="line">targetSdkVersion = &apos;22&apos;</span><br><span class="line">supportLibraryVersion = &apos;24.0.0&apos;</span><br><span class="line">gradleVersion = &apos;2.0.0-beta7&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-模块build-gradle"><a href="#4-模块build-gradle" class="headerlink" title="4.模块build.gradle"></a>4.模块build.gradle</h3><p>这里介绍app模块的build.gradle，其他库模块类似</p>
+<p>文件目录如下：<br>./app/build.grade<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">* Android插件有多个类型分别为：</span><br><span class="line">* 应用程序插件，插件id为com.android.application，会生成一个APK。</span><br><span class="line">* 库插件，插件id为com.android.library，会生成一个AAR，提供给其他应用程序模块用。</span><br><span class="line">* 测试插件，插件id为com.android.test，用于测试其他的模块。</span><br><span class="line">* feature插件，插件id为com.android.feature，创建Android Instant App时需要用到的插件。</span><br><span class="line">* Instant App插件，插件id为com.android.instantapp，是Android Instant App的入口。</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">apply plugin: &apos;com.android.application&apos;   </span><br><span class="line"> </span><br><span class="line">android &#123;       // 配置了所有android构建的所有参数</span><br><span class="line">    </span><br><span class="line">    compileSdkVersion 23                           //编译sdk的版本，也就是API Level，例如API-19、API-20、API-21等等。</span><br><span class="line">    buildToolsVersion &quot;23.0.1&quot;                     //build tools的版本，其中包括了打包工具aapt、dx等等。这个工具的目录位于你的sdk目录/build-tools/下</span><br><span class="line"></span><br><span class="line">    aaptOptions.cruncherEnabled = false  </span><br><span class="line">    aaptOptions.useNewCruncher = false             //关闭Android Studio的PNG合法性检查的</span><br><span class="line"></span><br><span class="line">    defaultConfig &#123;                                //默认配置</span><br><span class="line">        </span><br><span class="line">        applicationId &quot;com.awesomeproject&quot;         // 应用包名</span><br><span class="line">        minSdkVersion 16                           //最小sdk版本，如果设备小于这个版本或者大于maxSdkVersion(一般不用)将无法安装这个应用     </span><br><span class="line">        targetSdkVersion 22                        //目标sdk版本，如果设备等于这个版本那么android平台就不进行兼容性检查，运行效率会高一点</span><br><span class="line">        </span><br><span class="line">        versionCode 1                              // 版本号,版本更新了几次，第一版应用是1，以后每更新一次加1</span><br><span class="line">        versionName &quot;1.0&quot;                          //版本信息，这个会显示给用户，就是用户看到的版本号	</span><br><span class="line">    </span><br><span class="line">        archivesBaseName = &quot;weshare-$versionName&quot;  //指定打包成Jar文件时候的文件名称</span><br><span class="line">        </span><br><span class="line">        multiDexEnabled true                       //当方法数超过65535(方法的索引使用的是一个short值，而short最大值是65535)的时候允许打包成多个dex文件，动态加载dex。这里面坑很深啊</span><br><span class="line">        </span><br><span class="line">        ndk &#123;                                                     // 原生</span><br><span class="line">            moduleName &quot;xiaopaowifisafe&quot;                          //设置库(so)文件名称</span><br><span class="line">            ldLibs &quot;log&quot;, &quot;z&quot;, &quot;m&quot;, &quot;jnigraphics&quot;, &quot;android&quot;</span><br><span class="line">            //引入库，比如要用到的__android_log_print</span><br><span class="line">            abiFilters &quot;armeabi&quot;, &quot;x86&quot;, &quot;armeabi-v7a&quot;            //, &quot;x86&quot;  显示指定支持的ABIs</span><br><span class="line">            cFlags &quot;-std=c++11 -fexceptions&quot;                      // C++11</span><br><span class="line">            stl &quot;gnustl_static&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    buildTypes &#123;                                            //配置构建不同类型的APK</span><br><span class="line">        release &#123;                                           //release版本的配置</span><br><span class="line">            zipAlignEnabled true                            //是否支持zip</span><br><span class="line">            shrinkResources true                            // 移除无用的resource文件</span><br><span class="line">            minifyEnabled true                              //是否进行混淆</span><br><span class="line">            proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;  //指定混淆规则文件,release的Proguard默认为Module下的proguard-rules.pro文件.           </span><br><span class="line">            debuggable false                                //是否支持调试</span><br><span class="line">            signingConfig signingConfigs.release            //设置签名信息</span><br><span class="line">            applicationIdSuffix &quot;.uat&quot;                      //配置applicationId的后缀</span><br><span class="line">            //manifest占位符</span><br><span class="line">            manifestPlaceholders = [</span><br><span class="line">                    APP_NAME   : &quot;@string/app_name_uat&quot;,</span><br><span class="line">                    FACEBOOK_ID: rootProject.facebook_id_uat</span><br><span class="line">            ]</span><br><span class="line">            buildConfigField(&apos;String&apos;, &apos;SERVER_ADDRESS&apos;, &quot;test&quot;) //配置同字段不同开发环境取不同的值</span><br><span class="line">            jniDebuggable false                          //关闭jni调试</span><br><span class="line">            multiDexEnabled true              //是否启动自动拆分多个dex的功能</span><br><span class="line">            </span><br><span class="line">            ndk &#123;                                                                 //ndk的一些配置</span><br><span class="line">                // cFlags &quot;-std=c++11 -fexceptions -O3 -D__RELEASE__&quot;             // C++11</span><br><span class="line">                // platformVersion  = &quot;19&quot;</span><br><span class="line">                moduleName &quot;xiaopaowifisafe&quot; //设置库(so)文件名称</span><br><span class="line">                ldLibs &quot;log&quot;, &quot;z&quot;, &quot;m&quot;, &quot;jnigraphics&quot;, &quot;android&quot;</span><br><span class="line">                //引入库，比如要用到的__android_log_print</span><br><span class="line">                abiFilters &quot;armeabi&quot;, &quot;x86&quot;, &quot;armeabi-v7a&quot;//, &quot;x86&quot;</span><br><span class="line">                cFlags &quot;-std=c++11 -fexceptions&quot; // C++11</span><br><span class="line">                stl &quot;gnustl_static&quot;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            applicationVariants.all &#123; variant -&gt;                                  //采用动态替换字符串的方式生成不同的release.apk</span><br><span class="line">                variant.outputs.each &#123; output -&gt;</span><br><span class="line">                    def outputFile = output.outputFile</span><br><span class="line">                    if (outputFile != null &amp;&amp; outputFile.name.endsWith(&apos;release.apk&apos;)) &#123;</span><br><span class="line">                        def timeStamp = new Date().format(&apos;yyyyMMddHH&apos;);</span><br><span class="line">                        def fileName = &quot;WeShare-$&#123;defaultConfig.versionName&#125;&quot; + &quot;-&quot; + timeStamp + &quot;-lj-&quot; + &quot;.apk&quot;;</span><br><span class="line">                        output.outputFile = file(&quot;$&#123;outputFile.parent&#125;/$&#123;fileName&#125;&quot;)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        debug &#123;                                                                //debug版本的配置</span><br><span class="line">            minifyEnabled false</span><br><span class="line">            zipAlignEnabled true          </span><br><span class="line">            shrinkResources true                                               // 移除无用的resource文件</span><br><span class="line">            proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;</span><br><span class="line">            debuggable true</span><br><span class="line">//          jniDebuggable true</span><br><span class="line">            ndk &#123;</span><br><span class="line">                cFlags &quot;-std=c++11 -fexceptions -g -D __DEBUG__&quot; // C++11</span><br><span class="line">            &#125;</span><br><span class="line">            jniDebuggable true</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    lintOptions &#123;                   //Lint配置，程序在编译的时候会检查lint，有任何错误提示会停止build，我们可以关闭这个开关</span><br><span class="line">        abortOnError false          //即使报错也不会停止打包     </span><br><span class="line">        checkReleaseBuilds false    //打包release版本的时候进行检测</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sourceSets &#123;                                            //配置目录指向，默认的一些文件路径的配置</span><br><span class="line">        main &#123;</span><br><span class="line">             manifest.srcFile &apos;AndroidManifest.xml&apos;         //指定AndroidManifest文件</span><br><span class="line">            java.srcDirs = [&apos;src&apos;]                          //指定source目录</span><br><span class="line">            resources.srcDirs = [&apos;src&apos;]                     //指定source目录</span><br><span class="line">            aidl.srcDirs = [&apos;src&apos;]                          //指定source目录</span><br><span class="line">            renderscript.srcDirs = [&apos;src&apos;]                  //指定source目录</span><br><span class="line">            res.srcDirs = [&apos;res&apos;]                           //指定资源目录</span><br><span class="line">            assets.srcDirs = [&apos;assets&apos;]                     //指定assets目录</span><br><span class="line">            jniLibs.srcDirs = [&apos;libs&apos;]                      //指定lib库目录</span><br><span class="line">        &#125;</span><br><span class="line">	debug.setRoot(&apos;build-types/debug&apos;)                  //指定debug模式的路径</span><br><span class="line">        release.setRoot(&apos;build-types/release&apos;)              //指定release模式的路径</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">    dexOptions &#123;                          //DEX工具配置，multiDex的一些相关配置，这样配置可以让你的编译速度更快</span><br><span class="line">        preDexLibraries = false           //让它不要对Lib做preDexing        </span><br><span class="line">        incremental true                  //开启incremental dexing,优化编译效率，这个功能android studio默认是关闭的。       </span><br><span class="line">        javaMaxHeapSize &quot;4g&quot;              //增加java堆内存大小</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    compileOptions &#123;</span><br><span class="line">         //在这里你可以进行 Java 的版本配置，</span><br><span class="line">         //以便使用对应版本的一些新特性</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    signingConfigs &#123;                                 //签名配置</span><br><span class="line">        release &#123;                                    //发布版签名配置</span><br><span class="line">            storeFile file(&quot;fk.keystore&quot;)            //密钥文件路径</span><br><span class="line">            storePassword &quot;123&quot;                      //密钥文件密码</span><br><span class="line">            keyAlias &quot;fk&quot;                            //key别名</span><br><span class="line">            keyPassword &quot;123&quot;                        //key密码</span><br><span class="line">        &#125;</span><br><span class="line">        debug &#123;                                      //debug版签名配置</span><br><span class="line">            storeFile file(&quot;fk.keystore&quot;)</span><br><span class="line">            storePassword &quot;123&quot;</span><br><span class="line">            keyAlias &quot;fk&quot;</span><br><span class="line">            keyPassword &quot;123&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   packagingOptions &#123;       //打包时的相关配置</span><br><span class="line">        exclude &apos;META-INF/ASL2.0&apos;</span><br><span class="line">        exclude &apos;META-INF/LICENSE&apos;</span><br><span class="line">        exclude &apos;META-INF/NOTICE&apos;</span><br><span class="line">        exclude &apos;META-INF/MANIFEST.MF&apos;</span><br><span class="line">    &#125;</span><br><span class="line">    productFlavors &#123;            //多渠道配置</span><br><span class="line">           //在这里你可以设置你的产品发布的一些东西，</span><br><span class="line">           //比如你现在一共软件需要发布到不同渠道，</span><br><span class="line">           //且不同渠道中的包名不同，那么可以在此进行配置；</span><br><span class="line">           //甚至可以设置不同的 AndroidManifest.xml 文件。</span><br><span class="line">        xiaopao &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        googlePlay &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        solo &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    productFlavors.all &#123;</span><br><span class="line">        flavor -&gt; flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]</span><br><span class="line">    &#125;</span><br><span class="line">    //所谓ProductFlavors其实就是可定义的产品特性，</span><br><span class="line">    //配合 manifest merger 使用的时候就可以达成在一次编译</span><br><span class="line">    //过程中产生多个具有自己特性配置的版本。</span><br><span class="line"></span><br><span class="line">    //上面这个配置的作用就是，为每个渠道包产生不同的 UMENG_CHANNEL_VALUE 的值。</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">repositories &#123;                                 //远程依赖</span><br><span class="line">        </span><br><span class="line">    mavenCentral()                             //从中央库里面获取依赖</span><br><span class="line">    maven&#123;                                     //或者使用指定的本地maven库</span><br><span class="line">        url &quot;file://F:/githubrepo/releases&quot;</span><br><span class="line">    &#125;  </span><br><span class="line">    </span><br><span class="line">    maven&#123;                                     //或者使用指定的远程maven库</span><br><span class="line">        url &quot;远程库地址&quot; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">task copyNativeLibs(type: Copy) &#123;              //.so文件的导入</span><br><span class="line">        from fileTree(dir: &apos;libs&apos;, include: &apos;armeabi/*.so&apos;) into &apos;build/lib&apos;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;                                                // 依赖的工具包</span><br><span class="line">    compile fileTree(dir: &apos;libs&apos;, include: [&apos;*.jar&apos;])         //编译lib目录下的.jar文件</span><br><span class="line">    compile &apos;com.android.support:appcompat-v7:23.0.0&apos;         //编译来自Jcenter的第三方开源库</span><br><span class="line">    compile project(&apos;:Easylink&apos;)                              //编译附加的项目</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">apply plugin: &apos;com.google.gms.google-services&apos;                //声明是要使用谷歌服务框架</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">task showMeCache &lt;&lt; &#123;                                         //第三方依赖库的本地缓存路径</span><br><span class="line">    configurations.compile.each &#123; println it &#125;</span><br><span class="line">&#125;</span><br><span class="line">//使用maven仓库。android有两个标准的library文件服务器，一个jcenter一个maven。两者毫无关系。</span><br><span class="line">//jcenter有的maven可能没有，反之亦然。</span><br><span class="line">//如果要使用jcenter的话就把mavenCentral()替换成jcenter()</span><br><span class="line">repositories &#123;</span><br><span class="line">    mavenCentral()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="dependencies-块"><a href="#dependencies-块" class="headerlink" title="dependencies 块"></a>dependencies 块</h3><p>dependencies 块用于配置该module构建过程中所依赖的所有库。Gradle插件3.4版本新增了 api 和 implementation 来代替 compile 配置依赖，其中 api 和此前的 compile是一样的。implementation和api主要以下的区别：</p>
+<ul>
+<li>implementation可以让module在编译时隐藏自己使用的依赖，但是在运行时这个依赖对所有模块是可见的。而api与compile一样，无法隐藏自己使用的依赖。</li>
+<li>如果使用api，一个module发生变化，这条依赖链上所有的module都需要重新编译，而使用implemention，只有直接依赖这个module需要重新编译。</li>
+</ul>
+<h3 id="全局配置"><a href="#全局配置" class="headerlink" title="全局配置"></a>全局配置</h3><p>如果有多个module的配置是一样的，可以将这些配置提取出来，也就是使用全局配置。全局配置有多种方式，这里介绍其中的两种。</p>
+<p><strong>1. 使用ext块配置</strong></p>
+<p> 在项目build.gradle中使用ext块，如下所示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ext&#123;</span><br><span class="line">    compileSdkVersion =28</span><br><span class="line">    buildToolsVersion =&quot;28.0.3&quot;</span><br><span class="line">    minSdkVersion =15</span><br><span class="line">    targetSdkVersion =28</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在某个module的build.gradle中使用配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &apos;com.android.application&apos;</span><br><span class="line">android &#123;</span><br><span class="line">    compileSdkVersion rootProject.ext.compileSdkVersion</span><br><span class="line">    buildToolsVersion rootProject.ext.buildToolsVersion</span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        applicationId &quot;com.example.liuwangshu.hookinstrumentation&quot;</span><br><span class="line">        minSdkVersion rootProject.ext.minSdkVersion</span><br><span class="line">        targetSdkVersion rootProject.ext.targetSdkVersion</span><br><span class="line">        versionCode 1</span><br><span class="line">        versionName &quot;1.0&quot;</span><br><span class="line">        testInstrumentationRunner &quot;android.support.test.runner.AndroidJUnitRunner&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p><strong>2. 使用config.gradle配置</strong></p>
+<p>首先在根目录下创建config.gradle文件来进行配置。</p>
+<p>config.gradle</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ext&#123;</span><br><span class="line">    android=[</span><br><span class="line">            applicationId:&quot;com.example.liuwangshu.hookinstrumentation&quot;,</span><br><span class="line">            compileSdkVersion :28,</span><br><span class="line">            buildToolsVersion :&quot;28.0.3&quot;,</span><br><span class="line">            minSdkVersion : 15,</span><br><span class="line">            targetSdkVersion : 28,</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    dependencies =[</span><br><span class="line">            &quot;appcompat-v7&quot; : &quot;com.android.support:appcompat-v7:28.0.0&quot;,</span><br><span class="line">            &quot;constraint&quot;  : &quot;com.android.support.constraint:constraint-layout:1.1.3&quot;,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着在项目build.gradle中添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apply from: &apos;config.gradle&apos;</span><br></pre></td></tr></table></figure></p>
+<p>这样项目的所有module都能用config.gradle中定义的参数。<br>最后在module的build.gradle中使用配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &apos;com.android.application&apos;</span><br><span class="line">apply from: &apos;config.gradle&apos;</span><br><span class="line"></span><br><span class="line">android &#123;</span><br><span class="line">    compileSdkVersion rootProject.ext.android.compileSdkVersion</span><br><span class="line">    buildToolsVersion rootProject.ext.android.buildToolsVersion</span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        applicationId rootProject.ext.android.applicationId</span><br><span class="line">        minSdkVersion rootProject.ext.android.minSdkVersion</span><br><span class="line">        targetSdkVersion rootProject.ext.android.targetSdkVersion</span><br><span class="line">        versionCode 1</span><br><span class="line">        versionName &quot;1.0&quot;</span><br><span class="line">        testInstrumentationRunner &quot;android.support.test.runner.AndroidJUnitRunner&quot;</span><br><span class="line">    &#125;</span><br><span class="line">   ...</span><br><span class="line">dependencies &#123;</span><br><span class="line">    implementation rootProject.ext.dependencies[&quot;constraint&quot;]</span><br><span class="line">    implementation rootProject.ext.dependencies[&quot;appcompat-v7&quot;]</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+	
+	 
+      <div>
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      </div>
+    
+	  
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>免费分享，随意打赏 ^ ^</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt=" 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt=" 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2019/04/18/build-gradle详解/" title="build.gradle详解">http://yoursite.com/2019/04/18/build-gradle详解/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/gradle/" <i class="fa fa-tag"> gradle</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/18/常用排序算法/" rel="next" title="常用排序算法">
+                <i class="fa fa-chevron-left"></i> 常用排序算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/25/Git常用命令/" rel="prev" title="Git常用命令">
+                Git常用命令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/logo.png" alt>
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/lambdaxiao" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:lambdaxiao@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://developer.android.google.cn/index.html" title="Android官网" target="_blank">Android官网</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://wanandroid.com/" title="玩Android" target="_blank">玩Android</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://androiddevhub.github.io/" title="Android导航" target="_blank">Android导航</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://p.codekk.com/" title="CodeKK" target="_blank">CodeKK</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.jcodecraeer.com/plus/list.php?tid=31" title="泡在网上的日子" target="_blank">泡在网上的日子</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/guolin_blog" title="郭霖" target="_blank">郭霖</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="鸿洋" target="_blank">鸿洋</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-什么是Gradle的Android插件"><span class="nav-number">1.</span> <span class="nav-text">1.什么是Gradle的Android插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Android-Studio的模块类型"><span class="nav-number">2.</span> <span class="nav-text">2. Android Studio的模块类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-项目build-gradle"><span class="nav-number">3.</span> <span class="nav-text">3.项目build.gradle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-模块build-gradle"><span class="nav-number">4.</span> <span class="nav-text">4.模块build.gradle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dependencies-块"><span class="nav-number">5.</span> <span class="nav-text">dependencies 块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局配置"><span class="nav-number">6.</span> <span class="nav-text">全局配置</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+	  
+		<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+		<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+		<div class="widget-wrap">
+			<h3 class="widget-title">Tag Cloud</h3>
+		<div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidX/">AndroidX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/快捷方式/">快捷方式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/组件化/">组件化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘图/">绘图</a><span class="tag-list-count">1</span></li></ul>
+        </canvas>
+        </div>
+	    </div>
+	 
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+
+  
+</div>
+
+
+  <div class="powered-by">
+     <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+     本站访客数:<span id="busuanzi_value_site_uv"></span>
+    </span>
+  </div>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2019/04/18/build-gradle详解/';
+          this.page.identifier = '2019/04/18/build-gradle详解/';
+          this.page.title = 'build.gradle详解';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: '',
+            repo: 'blog-comment',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '2cf6e6b372ee875b0adea175b1c1f77ed9fc093c',
+            
+                client_id: 'ee6e8fb12449d6d6bff9'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  
+   <script type="text/javascript" color="0, 186, 87" opacity="0.7" zindex="-2" count="299" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  
+</body>
+</html>

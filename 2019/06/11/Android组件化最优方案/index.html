@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="组件化,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="awesome-module-kotlinKotlin 编写的android 组件化开发项目demo 一、组件化背景  一个项目，随着业务的发展，模块会变的越来越多，代码量也会变的异常庞大，进而可能开发的人会越来越多，这种情况下如果还是基于单一工程架构，那就需要每一个开发者都熟悉所有的代码，而且代码之间耦合严重，一个模块穿插着大量其他业务模块的逻辑，严重的话可能使项目处于牵一发而动全身，不想轻易修">
+<meta name="keywords" content="组件化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android组件化最优方案">
+<meta property="og:url" content="http://yoursite.com/2019/06/11/Android组件化最优方案/index.html">
+<meta property="og:site_name" content="秦军锐士">
+<meta property="og:description" content="awesome-module-kotlinKotlin 编写的android 组件化开发项目demo 一、组件化背景  一个项目，随着业务的发展，模块会变的越来越多，代码量也会变的异常庞大，进而可能开发的人会越来越多，这种情况下如果还是基于单一工程架构，那就需要每一个开发者都熟悉所有的代码，而且代码之间耦合严重，一个模块穿插着大量其他业务模块的逻辑，严重的话可能使项目处于牵一发而动全身，不想轻易修">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/06/11/Android组件化最优方案/module1.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/11/Android组件化最优方案/module2.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/11/Android组件化最优方案/module3.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/11/Android组件化最优方案/module4.png">
+<meta property="og:updated_time" content="2019-06-11T07:25:31.352Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android组件化最优方案">
+<meta name="twitter:description" content="awesome-module-kotlinKotlin 编写的android 组件化开发项目demo 一、组件化背景  一个项目，随着业务的发展，模块会变的越来越多，代码量也会变的异常庞大，进而可能开发的人会越来越多，这种情况下如果还是基于单一工程架构，那就需要每一个开发者都熟悉所有的代码，而且代码之间耦合严重，一个模块穿插着大量其他业务模块的逻辑，严重的话可能使项目处于牵一发而动全身，不想轻易修">
+<meta name="twitter:image" content="http://yoursite.com/2019/06/11/Android组件化最优方案/module1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/11/Android组件化最优方案/">
+
+
+
+
+
+  <title>Android组件化最优方案 | 秦军锐士</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/LambdaXiao/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">秦军锐士</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">面向对象面向君，不负代码不负卿。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/11/Android组件化最优方案/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content>
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="秦军锐士">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android组件化最优方案</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-11T15:08:52+08:00">
+                2019-06-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/组件化/" itemprop="url" rel="index">
+                    <span itemprop="name">组件化</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/11/Android组件化最优方案/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/06/11/Android组件化最优方案/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="awesome-module-kotlin"><a href="#awesome-module-kotlin" class="headerlink" title="awesome-module-kotlin"></a>awesome-module-kotlin</h1><p>Kotlin 编写的android 组件化开发项目demo</p>
+<h4 id="一、组件化背景"><a href="#一、组件化背景" class="headerlink" title="一、组件化背景"></a>一、组件化背景</h4><p>  一个项目，随着业务的发展，模块会变的越来越多，代码量也会变的异常庞大，进而可能开发的人会越来越多，这种情况下如果还是基于单一工程架构，那就需要每一个开发者都熟悉所有的代码，而且代码之间耦合严重，一个模块穿插着大量其他业务模块的逻辑，严重的话可能使项目处于牵一发而动全身，不想轻易修改的局面；而且庞大的单一工程项目会导致编译速度极慢，开发者长时间等待编译结果，非常不利于开发工作。所以，就需要一个灵活的架构来解决这些问题，组件化架构思想应运而生。</p>
+  <img src="/2019/06/11/Android组件化最优方案/module1.png">
+<a id="more"></a>
+<h4 id="二、整体架构"><a href="#二、整体架构" class="headerlink" title="二、整体架构"></a>二、整体架构</h4><img src="/2019/06/11/Android组件化最优方案/module2.png">
+<ul>
+<li>app：壳工程，用于将各个组件组装成一个完成app</li>
+<li>module_base：基础组件部分，不能独立运行，与业务无关，需要所有组件共同依赖的部分，如：网络请求封装、图片加载封装、ui相关基类、工具集合等（这些内容也可以依据分层原则放在不同的基础module中）</li>
+<li>ARouter：阿里开源的路由驱动组件，承载整个项目的路由工作</li>
+<li>module_main：业务组件1，如首页组件，可独立运行</li>
+<li>module_login：业务组件2，如登录组件，可独立运行</li>
+<li>module_me：业务组件3，如个人中心组件，可独立运行</li>
+</ul>
+<h4 id="三、集成模式与组件模式的配置"><a href="#三、集成模式与组件模式的配置" class="headerlink" title="三、集成模式与组件模式的配置"></a>三、集成模式与组件模式的配置</h4><p>首先，声明全局配置变量，来标识module的属性(app or library)</p>
+<p>比如配置以下config.gradle文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">ext &#123;</span><br><span class="line">    android = [</span><br><span class="line">            //true：组件模式，各组件可以单独运行；false：集成模式，只能运行或打包app module，也就是集成所有的module</span><br><span class="line">            isModule                 : false,</span><br><span class="line">            applicationId            : &quot;app.android.module&quot;,</span><br><span class="line">            compileSdkVersion        : 28,</span><br><span class="line">            minSdkVersion            : 19,</span><br><span class="line">            targetSdkVersion         : 28,</span><br><span class="line">            versionCode              : 1,</span><br><span class="line">            versionName              : &quot;1.0.0&quot;,</span><br><span class="line">            testInstrumentationRunner: &quot;androidx.test.runner.AndroidJUnitRunner&quot;,</span><br><span class="line">            multiDexEnabled          : true,</span><br><span class="line">            flavorDimensions         : &quot;versionCode&quot;,</span><br><span class="line"></span><br><span class="line">            releaseDebuggable        : false,</span><br><span class="line">            debugDebuggable          : true,</span><br><span class="line">            releaseShrinkResources   : true,</span><br><span class="line">            debugShrinkResources     : false,</span><br><span class="line">            releaseMinifyEnabled     : true,</span><br><span class="line">            debugMinifyEnabled       : false,</span><br><span class="line">            releaseZipAlignEnabled   : true,</span><br><span class="line">            debugZipAlignEnabled     : false</span><br><span class="line"></span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    java = [</span><br><span class="line">            &quot;sourceCompatibility&quot;: JavaVersion.VERSION_1_8,</span><br><span class="line">            &quot;targetCompatibility&quot;: JavaVersion.VERSION_1_8</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    sign = [</span><br><span class="line">            &quot;keyPassword&quot;  : &quot;123456&quot;,</span><br><span class="line">            &quot;keyAlias&quot;     : &quot;xwh&quot;,</span><br><span class="line">            &quot;storePassword&quot;: &quot;123456&quot;,</span><br><span class="line">            &quot;storeFile&quot;    : &quot;../module.jks&quot;</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    dependencies = [</span><br><span class="line">            &quot;appcompatVersion&quot;       : &quot;1.0.2&quot;,</span><br><span class="line">            &quot;constraintlayoutVersion&quot;: &quot;1.1.3&quot;,</span><br><span class="line">            &quot;runnerVersion&quot;          : &quot;1.2.0&quot;,</span><br><span class="line">            &quot;espressocoreVersion&quot;    : &quot;3.2.0&quot;,</span><br><span class="line">            &quot;corektxVersion&quot;         : &quot;1.0.2&quot;,</span><br><span class="line">            &quot;multidexVersion&quot;        : &quot;2.0.1&quot;,</span><br><span class="line">            &quot;junitVersion&quot;           : &quot;4.12&quot;,</span><br><span class="line">            &quot;arouterApiVersion&quot;      : &quot;1.4.1&quot;,</span><br><span class="line">            &quot;arouterCompilerVersion&quot; : &quot;1.2.2&quot;</span><br><span class="line"></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>配置全部放在根目录的config.gradle文件中，然后在根目录下的build.gradle文件中进行引用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apply from: &quot;config.gradle&quot;</span><br></pre></td></tr></table></figure>
+<p>app module只负责集成，里面没有太多代码，只需要在app module的build.gradle添加下面代码即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    if(!rootProject.ext.android.isModule) &#123;</span><br><span class="line">        implementation project(&apos;:module_main&apos;)</span><br><span class="line">        implementation project(&apos;:module_login&apos;)</span><br><span class="line">        implementation project(&apos;:module_me&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>module_base要特别注意如果组件中有引用其他第三方组件或者自己写的组件，并且还能被其他3个组件访问的话，引用必须要以api的方式，不能是implementation，比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    api fileTree(dir: &apos;libs&apos;, include: [&apos;*.jar&apos;])</span><br><span class="line">    api &quot;org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version&quot;</span><br><span class="line">    api &quot;androidx.appcompat:appcompat:$rootProject.ext.dependencies.appcompatVersion&quot;</span><br><span class="line">    api &quot;androidx.core:core-ktx:$rootProject.ext.dependencies.corektxVersion&quot;</span><br><span class="line">    api &quot;androidx.constraintlayout:constraintlayout:$rootProject.ext.dependencies.constraintlayoutVersion&quot;</span><br><span class="line">    api &quot;junit:junit:$rootProject.ext.dependencies.junitVersion&quot;</span><br><span class="line">    api &quot;androidx.test:runner:$rootProject.ext.dependencies.runnerVersion&quot;</span><br><span class="line">    api &quot;androidx.test.espresso:espresso-core:$rootProject.ext.dependencies.espressocoreVersion&quot;</span><br><span class="line">    api &quot;androidx.multidex:multidex:$rootProject.ext.dependencies.multidexVersion&quot;</span><br><span class="line">    //arouter api，只需在common组件中引入一次</span><br><span class="line">    api &quot;com.alibaba:arouter-api:$rootProject.ext.dependencies.arouterApiVersion&quot;</span><br><span class="line">    //arouter编译器插件，每个组件都需引入</span><br><span class="line">    kapt &quot;com.alibaba:arouter-compiler:$rootProject.ext.dependencies.arouterCompilerVersion&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>举个例子，A组件引用B组件，B组件引用C组件，如果A组件想使用C组件中的方法，那么B组件引用C组件的时候必须用api，如果用implementation ，A组件是不能访问到C组件的方法的。<br>module_base组件是公共的，供其他3个组件使用，所以要在每个需要使用它的组件中进行引用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">implementation project(&apos;:module_base&apos;)</span><br></pre></td></tr></table></figure>
+<p>业务组件module的配置,比如module_login的build.gradle<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">if (rootProject.ext.android.isModule) &#123;</span><br><span class="line">    apply plugin: &apos;com.android.application&apos;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    apply plugin: &apos;com.android.library&apos;</span><br><span class="line">&#125;</span><br><span class="line">apply plugin: &apos;kotlin-android&apos;</span><br><span class="line">apply plugin: &apos;kotlin-android-extensions&apos;</span><br><span class="line">apply plugin: &apos;kotlin-kapt&apos;</span><br><span class="line"></span><br><span class="line">android &#123;</span><br><span class="line">    compileSdkVersion rootProject.ext.android.compileSdkVersion</span><br><span class="line">    //如果资源文件有相同的名字，前面module的资源文件将替换后面的，Manifest会合并,</span><br><span class="line">    // 因此在资源文件前面加前缀(注意：AS不会自动帮我们的资源名自动加上前缀，</span><br><span class="line">    // 原来写了这段代码之后，AS会约束我们定义资源时，要我们手动加上前缀，否则报错！！所以只是起约束作用！！)</span><br><span class="line">    resourcePrefix &quot;login_&quot;</span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        minSdkVersion rootProject.ext.android.minSdkVersion</span><br><span class="line">        targetSdkVersion rootProject.ext.android.targetSdkVersion</span><br><span class="line">        versionCode rootProject.ext.android.versionCode</span><br><span class="line">        versionName rootProject.ext.android.versionName</span><br><span class="line"></span><br><span class="line">        testInstrumentationRunner rootProject.ext.android.testInstrumentationRunner</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    signingConfigs &#123;</span><br><span class="line">        release &#123;</span><br><span class="line">            keyAlias rootProject.ext.sign.keyAlias</span><br><span class="line">            keyPassword rootProject.ext.sign.keyPassword</span><br><span class="line">            storeFile file(rootProject.ext.sign.storeFile)</span><br><span class="line">            storePassword rootProject.ext.sign.storePassword</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    buildTypes &#123;</span><br><span class="line">        release &#123;</span><br><span class="line">            debuggable rootProject.ext.android.releaseDebuggable</span><br><span class="line">            jniDebuggable rootProject.ext.android.releaseDebuggable</span><br><span class="line">            zipAlignEnabled rootProject.ext.android.releaseZipAlignEnabled</span><br><span class="line">            if (rootProject.ext.android.isModule) &#123;</span><br><span class="line">                //Resource shrinker cannot be used for libraries</span><br><span class="line">                shrinkResources rootProject.ext.android.releaseShrinkResources</span><br><span class="line">            &#125;</span><br><span class="line">            minifyEnabled false</span><br><span class="line">            proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;</span><br><span class="line">            signingConfig signingConfigs.release</span><br><span class="line">        &#125;</span><br><span class="line">        debug &#123;</span><br><span class="line">            debuggable rootProject.ext.android.debugDebuggable</span><br><span class="line">            jniDebuggable rootProject.ext.android.debugDebuggable</span><br><span class="line">            zipAlignEnabled rootProject.ext.android.debugZipAlignEnabled</span><br><span class="line">            if (rootProject.ext.android.isModule) &#123;</span><br><span class="line">                //Resource shrinker cannot be used for libraries</span><br><span class="line">                shrinkResources rootProject.ext.android.debugShrinkResources</span><br><span class="line">            &#125;</span><br><span class="line">            minifyEnabled false</span><br><span class="line">            proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;</span><br><span class="line">            signingConfig signingConfigs.release</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sourceSets &#123;</span><br><span class="line">        main &#123;</span><br><span class="line">            if (rootProject.ext.android.isModule) &#123;</span><br><span class="line">                manifest.srcFile &apos;src/main/module/AndroidManifest.xml&apos;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                manifest.srcFile &apos;src/main/AndroidManifest.xml&apos;</span><br><span class="line">                //集成开发模式下排除module文件夹中的所有文件</span><br><span class="line">                java &#123;</span><br><span class="line">                    exclude &apos;module/**&apos;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    compileOptions &#123;</span><br><span class="line">        sourceCompatibility rootProject.ext.java.sourceCompatibility</span><br><span class="line">        targetCompatibility rootProject.ext.java.targetCompatibility</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//配置arouter编译器参数，每个组件都需配置</span><br><span class="line">kapt &#123;</span><br><span class="line">    arguments &#123;</span><br><span class="line">        arg(&quot;AROUTER_MODULE_NAME&quot;, project.getName())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">    implementation project(&apos;:module_base&apos;)</span><br><span class="line">    //arouter编译器插件，每个组件都需引入</span><br><span class="line">    kapt &quot;com.alibaba:arouter-compiler:$rootProject.ext.dependencies.arouterCompilerVersion&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>3个业务组件，究竟是一个单独的可以运行的组件还是一个library，我们可以通过前面定义的isModule来判断</li>
+<li>如果资源文件有相同的名字，前面module的资源文件将替换后面的，Manifest会合并, 为了避免集成模式下的命名冲突,因此在资源文件前面加前缀(注意：AS不会自动帮我们的资源名自动加上前缀，<br>原来写了”resourcePrefix “login_””这段代码之后，AS会约束我们定义资源时，要我们手动加上前缀，否则报错！！所以只是起约束作用！！)</li>
+<li>当module属性为library时，不能设置applicationId；当为app时，如果未设置applicationId，默认包名为applicationId，所以为了方便，此处不设置applicationId</li>
+<li>Android Studio会为每个module生成对应的AndroidManifest.xml文件，声明自身需要的权限、四大组件、数据等内容；当module属性为app时，其对应的AndroidManifest.xml需要具备完整app所需要的所有配置，尤其是声明Application和launch的Activity；当module属性为library时，如果每个组件都声明自己的Application和launch的Activity，那在合并的时候就会发生冲突，编译也不会通过，所以，就需要为当前module重新定义一个AndroidManifest.xml文件，不声明Application和launch的Activity，然后根据isModule的值指定AndroidManifest.xml的路径。</li>
+</ol>
+<p>下图是该module的目录</p>
+<img src="/2019/06/11/Android组件化最优方案/module3.png">
+<p>在需要切换module属性的时候改变config.gradle文件中isModule处声明的变量值，然后重新编译即可</p>
+<h4 id="四、组件之间页面跳转-路由ARouter"><a href="#四、组件之间页面跳转-路由ARouter" class="headerlink" title="四、组件之间页面跳转(路由ARouter)"></a>四、组件之间页面跳转(路由ARouter)</h4><p>在组件化架构中，不同的组件之间是平衡的，不存在相互依赖的关系(可参考文章开头的架构图)。因此，假设在组件A中，想要跳转到组件B中的页面，如果使用Intent显式跳转就行不通了，而且大家都知道，Intent隐式跳转管理起来非常不方便，所以ARouter出现了，并且有强大的技术团队支持，可以放心使用了。那么如何在组件化架构中应用ARouter呢？</p>
+<ul>
+<li>依赖处理</li>
+</ul>
+<p>在module_base组件中将ARouter依赖进来，并配置编译参数；在业务组件中引入ARouter编译器插件，同时配置编译器参数，下面是module_base组件gradle文件的部分片段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">//配置arouter编译器参数，每个组件都需配置</span><br><span class="line">kapt &#123;</span><br><span class="line">    arguments &#123;</span><br><span class="line">        arg(&quot;AROUTER_MODULE_NAME&quot;, project.getName())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">    api fileTree(dir: &apos;libs&apos;, include: [&apos;*.jar&apos;])</span><br><span class="line">    api &quot;org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version&quot;</span><br><span class="line">    api &quot;androidx.appcompat:appcompat:$rootProject.ext.dependencies.appcompatVersion&quot;</span><br><span class="line">    api &quot;androidx.core:core-ktx:$rootProject.ext.dependencies.corektxVersion&quot;</span><br><span class="line">    api &quot;androidx.constraintlayout:constraintlayout:$rootProject.ext.dependencies.constraintlayoutVersion&quot;</span><br><span class="line">    api &quot;junit:junit:$rootProject.ext.dependencies.junitVersion&quot;</span><br><span class="line">    api &quot;androidx.test:runner:$rootProject.ext.dependencies.runnerVersion&quot;</span><br><span class="line">    api &quot;androidx.test.espresso:espresso-core:$rootProject.ext.dependencies.espressocoreVersion&quot;</span><br><span class="line">    api &quot;androidx.multidex:multidex:$rootProject.ext.dependencies.multidexVersion&quot;</span><br><span class="line">    //arouter api，只需在common组件中引入一次</span><br><span class="line">    api &quot;com.alibaba:arouter-api:1.4.1&quot;</span><br><span class="line">    //arouter编译器插件，每个组件都需引入</span><br><span class="line">    kapt &quot;com.alibaba:arouter-compiler:1.2.2&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>“kapt “com.alibaba:arouter-compiler:1.2.2””必须在每个可跳转的module中引用，因为他会根据注解的类在build中生成对应的文件，比如在module_me中有这样一段代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Route(path = ARouterPath.MODULEME_MEACTIVITY)</span><br><span class="line">class MeActivity : BaseActivity() &#123;</span><br><span class="line"></span><br><span class="line">    override fun onCreate(savedInstanceState: Bundle?) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_me)</span><br><span class="line">        ARouter.getInstance().inject(this)</span><br><span class="line">        Toast.makeText(applicationContext, intent.extras.getString(&quot;param&quot;), Toast.LENGTH_LONG).show()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么就会在相应module生成相应的文件</p>
+<img src="/2019/06/11/Android组件化最优方案/module4.png">
+<p>如果我们没有在每个注解的module中添加ARouter依赖，那么在相应的module中就不会生成相应的文件，跳转永远也都不会成功。</p>
+<ul>
+<li>初始化及编码实现</li>
+</ul>
+<p>在组件架构中，经常会遇到组件需要使用全局Context的情况，当组件属性为app时，可以通过自定义Application实现；当组件属性为library时，由于组件被app依赖，导致无法调用app的Application实例，而且自身不存在Application；所以，这里给出的方案是在module_base组件中创建一个BaseApplication，然后让组件模式下的Application继承BaseApplication,在BaseApplication中获取全局Context，并做一些初始化的工作，这里需要初始化ARouter，如下是在module_base组件中声明的BaseApplication。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *描述：Application基类</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">class BaseApplication : Application() &#123;</span><br><span class="line"></span><br><span class="line">    companion object &#123;</span><br><span class="line">        var mContext: Application? = null</span><br><span class="line">        //获取全局Context</span><br><span class="line">        fun getContext(): Application &#123;</span><br><span class="line">            return mContext!!</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    override fun onCreate() &#123;</span><br><span class="line">        super.onCreate()</span><br><span class="line">        mContext = this</span><br><span class="line"></span><br><span class="line">        //初始化Arouter</span><br><span class="line">        initARouter()</span><br><span class="line">        //初始化其他第三方库</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    override fun attachBaseContext(base: Context?) &#123;</span><br><span class="line">        super.attachBaseContext(base)</span><br><span class="line">        MultiDex.install(this)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    override fun onTerminate() &#123;</span><br><span class="line">        super.onTerminate()</span><br><span class="line">        //清理Arouter注册表</span><br><span class="line">        ARouter.getInstance().destroy()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private fun initARouter() &#123;</span><br><span class="line">        if (BuildConfig.DEBUG) &#123;  // 这两行必须写在init之前，否则这些配置在init过程中将无效</span><br><span class="line">            ARouter.openLog()    // 打印日志</span><br><span class="line">            ARouter.openDebug()   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)</span><br><span class="line">        &#125;</span><br><span class="line">        ARouter.init(this)// 尽可能早，推荐在Application中初始化</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>初始化之后，就可以通过@Route注解注册页面，然后调用ARouter api实现页面的跳转了（这里所谓的跨组件页面跳转是指在集成模式下，而非组件模式下）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Route(path = ARouterPath.MODULEME_MEACTIVITY)</span><br><span class="line">class MeActivity : BaseActivity() &#123;</span><br><span class="line"></span><br><span class="line">    override fun onCreate(savedInstanceState: Bundle?) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_me)</span><br><span class="line">        //注入传递的参数</span><br><span class="line">        ARouter.getInstance().inject(this)</span><br><span class="line">        Toast.makeText(applicationContext, intent.extras.getString(&quot;param&quot;), Toast.LENGTH_LONG).show()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后在其他页面调用如下方法就可以跳转到上面路由path指定的目标页面了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ARouter.getInstance().build(ARouterPath.MODULEME_MEACTIVITY).withString(&quot;param&quot;, &quot;我要到个人中心页面&quot;).navigation()</span><br></pre></td></tr></table></figure></p>
+<p>以上便完成了一次简单的跨越组件的页面跳转，仅仅是ARouter的基本使用而已。</p>
+<h4 id="五、关于混淆"><a href="#五、关于混淆" class="headerlink" title="五、关于混淆"></a>五、关于混淆</h4><p>说到混淆，有人可能会疑惑，如果在各个组件中混淆可不可以？不建议这样混淆！！因为组件在集成模式下被gradle构建成了release类型的aar包，如果在组件中进行混淆，一旦代码出现了bug，这个时候就很难根据日志去追踪bug产生的原因，而且不同组件分别进行混淆非常不方便维护和修改，这也是不推荐在业务组件中配置buildType(构建类型)的原因。</p>
+<p>所以，组件化项目的代码混淆放在集成模式下的app壳工程，各个业务组件不配置混淆。集成模式下在app壳工程.gradle文件的release构建模式下开启混淆，其他buildType配置和普通项目相同，混淆文件放在app壳工程下，各个组件的代码混淆均放在该混淆文件中。</p>
+<h4 id="六、小结"><a href="#六、小结" class="headerlink" title="六、小结"></a>六、小结</h4><ul>
+<li>解耦：将业务组件代码与工程解耦。</li>
+<li>提高开发效率：依赖解耦这一优势，团队成员可以只专注于自己负责的组件，开发效率更高；而且，组件开发过程中只需编译自身的module，这样大大缩短了编译时长，避免了漫长的等待编译局面。</li>
+<li>结构清晰：在业务组件明确拆分的前提下，项目结构变的异常清晰，非常方便全局掌控。</li>
+</ul>
+<h4 id="七、关注及反馈"><a href="#七、关注及反馈" class="headerlink" title="七、关注及反馈"></a>七、关注及反馈</h4><p>github项目地址：<a href="https://github.com/LambdaXiao/awesome-module-kotlin" target="_blank" rel="noopener">https://github.com/LambdaXiao/awesome-module-kotlin</a></p>
+<p>倘若本项目对你有一丝丝的帮助和价值，烦请给个star,或者有什么好的建议或意见，也可以发个issues，谢谢！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+	
+	 
+      <div>
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      </div>
+    
+	  
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>免费分享，随意打赏 ^ ^</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt=" 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt=" 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2019/06/11/Android组件化最优方案/" title="Android组件化最优方案">http://yoursite.com/2019/06/11/Android组件化最优方案/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/组件化/" <i class="fa fa-tag"> 组件化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/09/AndroidX的迁移/" rel="next" title="AndroidX的迁移">
+                <i class="fa fa-chevron-left"></i> AndroidX的迁移
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/logo.png" alt>
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/lambdaxiao" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:lambdaxiao@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://developer.android.google.cn/index.html" title="Android官网" target="_blank">Android官网</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://wanandroid.com/" title="玩Android" target="_blank">玩Android</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://androiddevhub.github.io/" title="Android导航" target="_blank">Android导航</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://p.codekk.com/" title="CodeKK" target="_blank">CodeKK</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.jcodecraeer.com/plus/list.php?tid=31" title="泡在网上的日子" target="_blank">泡在网上的日子</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/guolin_blog" title="郭霖" target="_blank">郭霖</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="鸿洋" target="_blank">鸿洋</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#awesome-module-kotlin"><span class="nav-number">1.</span> <span class="nav-text">awesome-module-kotlin</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、组件化背景"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">一、组件化背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、整体架构"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">二、整体架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、集成模式与组件模式的配置"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">三、集成模式与组件模式的配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、组件之间页面跳转-路由ARouter"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">四、组件之间页面跳转(路由ARouter)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、关于混淆"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">五、关于混淆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、小结"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">六、小结</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#七、关注及反馈"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">七、关注及反馈</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+	  
+		<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+		<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+		<div class="widget-wrap">
+			<h3 class="widget-title">Tag Cloud</h3>
+		<div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidX/">AndroidX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/快捷方式/">快捷方式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/组件化/">组件化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘图/">绘图</a><span class="tag-list-count">1</span></li></ul>
+        </canvas>
+        </div>
+	    </div>
+	 
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+
+  
+</div>
+
+
+  <div class="powered-by">
+     <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+     本站访客数:<span id="busuanzi_value_site_uv"></span>
+    </span>
+  </div>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2019/06/11/Android组件化最优方案/';
+          this.page.identifier = '2019/06/11/Android组件化最优方案/';
+          this.page.title = 'Android组件化最优方案';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: '',
+            repo: 'blog-comment',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '2cf6e6b372ee875b0adea175b1c1f77ed9fc093c',
+            
+                client_id: 'ee6e8fb12449d6d6bff9'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  
+   <script type="text/javascript" color="0, 186, 87" opacity="0.7" zindex="-2" count="299" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  
+</body>
+</html>
